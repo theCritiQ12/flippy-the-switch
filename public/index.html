@@ -85,18 +85,19 @@
       try {
         const response = await fetch("/.netlify/functions/getMemes");
         const images = await response.json();
-        gallery.innerHTML = ""; // Clear loading message
+        console.log("Images from getMemes:", images); // Add this
+        gallery.innerHTML = "";
         images.forEach((image) => {
           const img = document.createElement("img");
           img.src = image.url;
           img.alt = image.name;
           img.className = "meme-img";
           gallery.appendChild(img);
-        });
+       });
       } catch (error) {
         console.error("Error loading memes:", error);
         gallery.innerHTML = "<p>Failed to load memes.</p>";
-      }
+     }
     }
 
     window.addEventListener("load", loadMemes);
