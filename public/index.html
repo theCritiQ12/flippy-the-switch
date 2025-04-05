@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flippy The Switch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Loading prompt overlay -->
+  <div id="loading-prompt">
+    <p>Loading...</p>
+  </div>
+  <!-- Audio prompt overlay -->
+  <div id="audio-prompt">
+    <div class="switch-container">
+      <label for="audio-switch"><h2>Flip The Switch to Start!</h2></label>
+      <img src="SwitchDown.gif" alt="Audio Switch" id="audio-switch" class="switch-gif">
+    </div>
+  </div>
+  <audio id="background-music" loop>
+    <source src="FlippyThemeSong-by-Spiffy.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <nav class="navbar">
+    <div class="logo">
+      <a href="https://dexscreener.com/xrpl/24464c4950505900000000000000000000000000.rsenfmelvj92orrcktkdtug53mzwsb7zbd_xrp" target="_blank">
+        <img src="FlippyTheSwitchLogo(tempNoFlippy).png" alt="Flippy The Switch Logo">
+      </a>
+      <div class="audio-toggle">
+        <span id="audio-icon">🔊</span>
+      </div>
+      <div class="ticker">
+        <span class="ticker-text">Official Flippy The Switch Theme Song by Steve Spiffler</span>
+      </div>
+    </div>
+    <div class="menu-toggle">☰</div>
+    <ul class="nav-links">
+      <li><a href="#home">HOME</a></li>
+      <li><a href="#memes">MEMES</a></li>
+      <li><a href="https://xrp.cafe/collection/flippypfp" target="_blank">NFTs</a></li>
+      <li><a href="https://www.burnwithmerch.com/flippy-merch-official" target="_blank">Merch</a></li>
+      <li class="social-buttons">
+        <a href="https://t.me/flippytheswitch" target="_blank" class="nav-btn telegram-btn">
+          Join the Telegram <img src="telegram-logo.png" alt="Telegram Logo" class="tg-logo">
+        </a>
+        <a href="https://x.com/flippy589" target="_blank" class="nav-btn x-btn">
+          Follow on <img src="x-logo.png" alt="X Logo" class="x-logo">
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <section class="hero" id="home">
+    <div class="background">
+      <video autoplay loop muted class="bg-video">
+        <source src="FlippyLightSpeedBridge.mov" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="content">
+      <div class="inline-content">
+        <h1>ALWAYS. BE. FLIPPING.</h1>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero" id="memes">
+    <div class="background"></div>
+    <div class="content">
+      <div class="inline-content">
+        <h1>FLIPPY MEMES</h1>
+        <div class="meme-gallery" id="meme-gallery">
+          <p>Loading memes...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    async function loadMemes() {
+      const gallery = document.getElementById("meme-gallery");
+      try {
+        const response = await fetch("/.netlify/functions/getMemes");
+        const images = await response.json();
+        gallery.innerHTML = ""; // Clear loading message
+        images.forEach((image) => {
+          const img = document.createElement("img");
+          img.src = image.url;
+          img.alt = image.name;
+          img.className = "meme-img";
+          gallery.appendChild(img);
+        });
+      } catch (error) {
+        console.error("Error loading memes:", error);
+        gallery.innerHTML = "<p>Failed to load memes.</p>";
+      }
+    }
+
+    window.addEventListener("load", loadMemes);
+  </script>
+
+  <script>
+    window.onload = function () {
+      const loadingPrompt = document.getElementById('loading-prompt');
+      const audioPrompt = document.getElementById('audio-prompt');
+      
+      // Fade out loading prompt after a short delay
+      setTimeout(() => {
+        loadingPrompt.style.opacity = '0';
+        setTimeout(() => {
+          loadingPrompt.style.display = 'none';
+          document.body.style.visibility = 'visible';
+          document.body.style.opacity = '1';
+          audioPrompt.style.display = 'flex';
+        }, 500); // Match fade-out duration
+      }, 500); // 2s delay to ensure visibility
+    };
+
+    function copyText() {
+      const text = document.getElementById('textToCopy').innerText;
+      navigator.clipboard.writeText(text);
+      const message = document.getElementById('copyMessage');
+      message.style.display = 'block';
+      setTimeout(() => message.style.display = 'none', 2000);
+    }
+
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const navItems = document.querySelectorAll('.nav-links a');
+
+    menuToggle.addEventListener('click', function () {
+      navLinks.classList.toggle('active');
+      menuToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+    });
+
+    navItems.forEach(item => {
+      item.addEventListener('click', function () {
+        navLinks.classList.remove('active');
+        menuToggle.textContent = '☰';
+      });
+    });
+
+    const audio = document.getElementById('background-music');
+    const audioIcon = document.getElementById('audio-icon');
+    const audioToggle = document.querySelector('.audio-toggle');
+    const audioPrompt = document.getElementById('audio-prompt');
+    const audioSwitch = document.getElementById('audio-switch');
+
+    audioToggle.style.display = 'none';
+    document.querySelector('.ticker').style.display = 'none';
+    audioPrompt.style.display = 'none'; // Hide until loading finishes
+
+    audioSwitch.addEventListener('click', function () {
+      audioSwitch.src = 'FlipSwitchOn.gif';
+      audio.play();
+      audioToggle.style.display = 'flex';
+      document.querySelector('.ticker').style.display = 'flex';
+      setTimeout(() => {
+        audioPrompt.classList.add('hidden');
+        setTimeout(() => audioPrompt.style.display = 'none', 500);
+      }, 500);
+    });
+
+    audioToggle.addEventListener('click', function () {
+      if (audio.muted) {
+        audio.muted = false;
+        audioIcon.textContent = '🔊';
+        audioIcon.classList.remove('muted');
+      } else {
+        audio.muted = true;
+        audioIcon.textContent = '🔇';
+        audioIcon.classList.add('muted');
+      }
+    });
+  </script>
+  
+</body>
+</html>
