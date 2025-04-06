@@ -39,7 +39,7 @@
     <div class="menu-toggle">☰</div>
     <ul class="nav-links">
       <li><a href="#home">HOME</a></li>
-      <li><a href="#memes">MEMES</a></li>
+      <li><a href="https://drive.google.com/drive/folders/1GHKyxFZ2B-OK5glkfgF0z9H9d4DijHW0" target="_blank">MEMES</a></li>
       <li><a href="https://xrp.cafe/collection/flippypfp" target="_blank">NFTs</a></li>
       <li><a href="https://www.burnwithmerch.com/flippy-merch-official" target="_blank">Merch</a></li>
       <li class="social-buttons">
@@ -66,38 +66,6 @@
       </div>
     </div>
   </section>
-
-  <section class="hero" id="memes">
-    <div class="background"></div>
-    <div class="content">
-      <div class="meme-gallery" id="meme-gallery">
-      </div>
-    </div>
-  </section>
-
-  <script>
-    async function loadMemes() {
-      const gallery = document.getElementById("meme-gallery");
-      try {
-        const response = await fetch("/.netlify/functions/getMemes");
-        const images = await response.json();
-        console.log("Images from getMemes:", images); // Add this
-        gallery.innerHTML = "";
-        images.forEach((image) => {
-          const img = document.createElement("img");
-          img.src = image.url;
-          img.alt = image.name;
-          img.className = "meme-img";
-          gallery.appendChild(img);
-       });
-      } catch (error) {
-        console.error("Error loading memes:", error);
-        gallery.innerHTML = "<p>Failed to load memes.</p>";
-     }
-    }
-
-    window.addEventListener("load", loadMemes);
-  </script>
 
   <script>
     window.onload = function () {
