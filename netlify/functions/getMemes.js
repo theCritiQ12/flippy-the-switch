@@ -53,7 +53,7 @@ exports.handler = async (event, context) => {
     const images = response.data.files
       .filter((file) => file.mimeType.startsWith("image/"))
       .map((file) => ({
-        url: `https://drive.google.com/uc?export=view&id=${file.id}`,
+        url: `/proxy-image/${file.id}`, // Return a proxy path
         name: file.name,
       }));
 
