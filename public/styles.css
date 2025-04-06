@@ -163,7 +163,7 @@ body {
 /* Style the meme gallery */
 .meme-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit);
   gap: 10px;
   padding: 10px;
   width: 100%;
@@ -173,7 +173,7 @@ body {
 
 .meme-img {
   width: 100%;
-  height: auto;
+  height: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
 }
